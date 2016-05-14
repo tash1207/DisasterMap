@@ -30,3 +30,8 @@
  -
  -# Android Studio captures folder
  -captures/
+
+/android/DisasterMapAndroidKatie/*
+    !/android/DisasterMapAndroidKatie
+    /android/DisasterMapAndroidKatie/*
+    !/android/DisasterMapAndroidKatie/app/src/main
