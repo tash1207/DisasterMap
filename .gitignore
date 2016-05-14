@@ -36,3 +36,12 @@ proguard/
 # Android Studio captures folder
 captures/
 
+android/DisasterMapAndroidKatie/*
+!android/DisasterMapAndroidKatie/app/src/main/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*/*
