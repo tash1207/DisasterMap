@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DisasterMaps</string>
+    <string name="title_activity_disaster_map">Map</string>
+</resources>
