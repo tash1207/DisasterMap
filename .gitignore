@@ -37,11 +37,6 @@ proguard/
 captures/
 
 android/DisasterMapAndroidKatie/*
-!android/DisasterMapAndroidKatie/app/src/main/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*
-!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app
+android/DisasterMapAndroidKatie/app/*
+!android/DisasterMapAndroidKatie/app/src
