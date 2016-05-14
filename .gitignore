@@ -2,6 +2,11 @@
 *.apk
 *.ap_
 
+# Exraneous gradle files to ignore
+android/DisasterMapAndroidKatie/.idea/
+android/DisasterMapAndroidKatie/app/build.gradle
+android/DisasterMapAndroidKatie/app/proguard-rules.pro
+
 # Files for the Dalvik VM
 *.dex
 
