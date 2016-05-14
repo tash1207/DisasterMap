@@ -1,9 +1,10 @@
+import bottle
 import gridfs
 import os
 import pymongo
 import sys
 
-from bottle import get, post, redirect, request, run, static_file, template
+from bottle import get, post, redirect, request, static_file, template
 from datetime import datetime
 
 @get('/images/<filename>')
@@ -42,4 +43,11 @@ def do_upload():
     bottle.response.content_type = 'image/jpeg'
     return image
   return "Upload failed :("
+
+connection = pymongo.MongoClient()
+database = connection.disaster_map
+
+bottle.debug(True)
+bottle.run(host='0.0.0.0', port=8080)
+
 
