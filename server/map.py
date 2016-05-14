@@ -1,5 +1,6 @@
 import pymongo
 from datetime import datetime, date, time, timedelta
+from bson.son import SON
 
 class Map(object):
 	"Map helper class to determine what map the entry should be assigned."
@@ -18,21 +19,20 @@ class Map(object):
 		# Get nearest disaster map from the last ten days within 10,000 meters.
 		map = disasters.find(
 			{"start_datetime": {"$gte": drange},
-			 "loc": {$near:{$geometry: {type:"Point", coordinates: loc}, $maxDistance: 10000}}}).limit(1).pretty():
+			 "loc": SON([("$near", location), ("$maxDistance", 100)])}).limit(1).pretty()
 		if map:
 			return map._id
 		else:
-			return create_map(current_date, loc)
+			return create_map(current_date, location)
 
 	def create_map(self, current_date, location):
 		# Insert the new disaster map and other data in the disaster db
 		db.places.create_index( ("loc", pymongo.GEOSPHERE), ("name", pymongo.ASCENDING), ("start_datetime", pymongo.DESCENDING))
-		try {
+		try:
 			response = disasters.insert_one(
 				{"loc" : { type: "Point", coordinates: location },
 				 "name": "Dummy Disaster",
 				 "start_datetime": current_date})
-		} catch(e) {
+		except:
 			print e
-		}
 		return response.inserted_id
