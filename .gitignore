@@ -32,4 +32,11 @@
  -captures/
 
 android/DisasterMapAndroidKatie/*
-!/android/DisasterMapAndroidKatie/app/src/main/*
+!android/DisasterMapAndroidKatie/app/src/main/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*
+!android/DisasterMapAndroidKatie/app/src/main/*/*/*/*/*/*/*/*
