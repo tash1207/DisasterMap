@@ -30,6 +30,16 @@ def do_upload():
   name, ext = os.path.splitext(data.filename)
   if ext not in ('.png', '.jpg', '.jpeg'):
     return "File extension not allowed."
-  # Logic to add image to pictures collection
-  return "Upload succeeded!"
+  if data and data.file:
+    raw = data.file.read()
+    filename = data.filename
+    dbname = 'pictures'
+    db = connection[dbname]
+    fs = gridfs.GridFS(db)
+    fs.put(raw, filename=filename)
+    # get the image back out
+    image = fs.get_last_version(filename=filename)
+    bottle.response.content_type = 'image/jpeg'
+    return image
+  return "Upload failed :("
 
