@@ -9,7 +9,7 @@ from datetime import datetime
 
 @get('/images/<filename>')
 def image(filename):
-  dbname = 'pictures'
+  dbname = 'grid_files'
   db = connection[dbname]
   fs = gridfs.GridFS(db)
   gridout = fs.get_last_version(filename=filename)
@@ -29,25 +29,35 @@ def form_upload():
 def do_upload():
   data = request.files.data
   name, ext = os.path.splitext(data.filename)
+  now = datetime.now()
+  date_filename = now.strftime("%Y%m%d-%H%M%S") + ext
+  print date_filename
   if ext not in ('.png', '.jpg', '.jpeg'):
     return "File extension not allowed."
   if data and data.file:
+    # Store the image in the grid_files db
     raw = data.file.read()
-    filename = data.filename
-    dbname = 'pictures'
-    db = connection[dbname]
-    fs = gridfs.GridFS(db)
-    fs.put(raw, filename=filename)
-    # get the image back out
-    image = fs.get_last_version(filename=filename)
+    #filename = data.filename
+    grid_db = connection['grid_files']
+    fs = gridfs.GridFS(grid_db)
+    fs.put(raw, filename=date_filename)
+    # Insert the filename and other data in the pictures db
+    hack_db = connection['hackathon']
+    hack_db.pictures.insert_one(
+        {'filename': date_filename,
+         'datetime': now,
+         'latitude': 0,
+         'longitude': 0,
+         'disaster': 0}
+    )
+    # Get the image back out
+    image = fs.get_last_version(filename=date_filename)
     bottle.response.content_type = 'image/jpeg'
     return image
-  return "Upload failed :("
+  return "Upload failed"
 
 connection = pymongo.MongoClient()
-database = connection.disaster_map
 
 bottle.debug(True)
 bottle.run(host='0.0.0.0', port=8080)
-
 
