@@ -7,6 +7,8 @@ import sys
 from base64 import decodestring
 from bottle import get, post, redirect, request, static_file, template
 from datetime import datetime
+from bson import Binary, Code
+from bson.json_util import dumps
 
 @get('/images/<filename>')
 def image(filename):
@@ -25,6 +27,18 @@ def form_upload():
       <input type="submit" value="submit">
     </form>
   '''
+
+@get('/disasters')
+def get_all_maps():
+  hack_db = connection['hackathon']
+  disasters = hack_db['disasters']
+  return dumps(disasters.find({}, {'name': 1}))
+
+@get('/map')
+def get_map(id):
+  hack_db = connection['hackathon']
+  disasters = hack_db['disasters']
+  return dumps(disasters.find_one({"_id": id}, {'filename': 1, 'latitude':1, 'longitude': 1, 'datetime': 1}))
 
 @post('/upload')
 def do_upload():
