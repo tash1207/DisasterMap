@@ -75,8 +75,8 @@ def do_upload_from_app():
   hack_db.pictures.insert_one(
       {'filename': date_filename,
        'datetime': now,
-       'latitude': 0,
-       'longitude': 0,
+       'latitude': lat,
+       'longitude': lng,
        'disaster': 0}
   )
   # Get the image back out
