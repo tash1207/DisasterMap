@@ -10,6 +10,7 @@ from bottle import get, post, redirect, request, static_file, template
 from datetime import datetime
 from bson import Binary, Code
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 @get('/images/<filename>')
 def image(filename):
@@ -39,7 +40,7 @@ def get_all_maps():
 def get_map(id):
   hack_db = connection['hackathon']
   pictures = hack_db['pictures']
-  return dumps(pictures.find({"disaster": id}, {'filename': 1, 'latitude':1, 'longitude': 1, 'datetime': 1}))
+  return dumps(pictures.find({"disaster": ObjectId(id)}, {'filename': 1, 'latitude':1, 'longitude': 1, 'datetime': 1}))
 
 @post('/upload')
 def do_upload():
@@ -95,8 +96,8 @@ def do_upload_from_app():
        'disaster': 0}
   )
   m = Map(hack_db)
-  map_id = m.get_map_id(now, [lat, lng])
-  hack_db.pictures.update_one({"filename": date_filename}, {"disaster": map_id})
+  map_id = m.get_map_id(now, [float(lng), float(lat)])
+  hack_db.pictures.update_one({"filename": date_filename}, {"$set": {"disaster": map_id}})
   # Get the image back out
   image = fs.get_last_version(filename=date_filename)
   bottle.response.content_type = 'image/jpeg'
