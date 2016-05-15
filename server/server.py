@@ -3,6 +3,7 @@ import gridfs
 import os
 import pymongo
 import sys
+from map import Map
 
 from base64 import decodestring
 from bottle import get, post, redirect, request, static_file, template
@@ -93,6 +94,9 @@ def do_upload_from_app():
        'longitude': lng,
        'disaster': 0}
   )
+  m = Map(hack_db)
+  map_id = m.get_map_id(now, [lat, lng])
+  hack_db.pictures.update_one({"filename": date_filename}, {"disaster": map_id})
   # Get the image back out
   image = fs.get_last_version(filename=date_filename)
   bottle.response.content_type = 'image/jpeg'
