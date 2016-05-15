@@ -34,11 +34,11 @@ def get_all_maps():
   disasters = hack_db['disasters']
   return dumps(disasters.find({}, {'name': 1}))
 
-@get('/map')
+@get('/map/<id>')
 def get_map(id):
   hack_db = connection['hackathon']
-  disasters = hack_db['disasters']
-  return dumps(disasters.find_one({"_id": id}, {'filename': 1, 'latitude':1, 'longitude': 1, 'datetime': 1}))
+  pictures = hack_db['pictures']
+  return dumps(pictures.find("disaster": id), {'filename': 1, 'latitude':1, 'longitude': 1, 'datetime': 1})
 
 @post('/upload')
 def do_upload():
