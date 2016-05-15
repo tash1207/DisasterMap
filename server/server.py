@@ -4,6 +4,7 @@ import os
 import pymongo
 import sys
 
+from base64 import decodestring
 from bottle import get, post, redirect, request, static_file, template
 from datetime import datetime
 
@@ -55,6 +56,33 @@ def do_upload():
     bottle.response.content_type = 'image/jpeg'
     return image
   return "Upload failed"
+
+@post('/uploadFromApp')
+def do_upload_from_app():
+  picture = request.forms.get('picture')
+  lat = request.forms.get('latitude')
+  lng = request.forms.get('longitude')
+
+  raw = decodestring(picture)
+  now = datetime.now()
+  date_filename = now.strftime("%Y%m%d-%H%M%S") + '.jpg'
+  print date_filename
+  grid_db = connection['grid_files']
+  fs = gridfs.GridFS(grid_db)
+  fs.put(raw, filename=date_filename)
+  # Insert the filename and other data in the pictures db
+  hack_db = connection['hackathon']
+  hack_db.pictures.insert_one(
+      {'filename': date_filename,
+       'datetime': now,
+       'latitude': 0,
+       'longitude': 0,
+       'disaster': 0}
+  )
+  # Get the image back out
+  image = fs.get_last_version(filename=date_filename)
+  bottle.response.content_type = 'image/jpeg'
+  return image
 
 connection = pymongo.MongoClient()
 
